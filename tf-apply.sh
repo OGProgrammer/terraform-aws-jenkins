@@ -58,4 +58,6 @@ else
     exit 1
 fi
 
+echo "To access your jenkins UI, goto \"the.ip.in.output:8080\" in your web browser."
+echo "To access your jenkins shell, run \"ssh admin@the.ip.in.output\""
 echo "done";
