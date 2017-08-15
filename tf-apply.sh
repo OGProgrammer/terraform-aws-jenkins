@@ -53,6 +53,9 @@ terraform init \
     -backend-config="key=${jenkins_env_name}.tfstate" \
     -backend-config="region=${target_aws_region}"
 
+echo "Uploading files for jenkins..."
+./upload_files_to_s3.sh ${target_aws_region}
+
 echo "terraform apply -var \"env_name=${jenkins_env_name}\" -var \"region=${target_aws_region}\"  -var \"availability_zones=${availability_zones}\" -var \"ssh_key_name=${ssh_key_name}\""
 if terraform apply -var "env_name=${jenkins_env_name}" -var "region=${target_aws_region}"  -var "availability_zones=${availability_zones}" -var "ssh_key_name=${ssh_key_name}"; then
     echo "Terraform apply succeeded."
