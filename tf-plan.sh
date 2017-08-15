@@ -43,6 +43,9 @@ export AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key)
 # Uncomment for verbose terraform output
 #export TF_LOG=info
 
+echo "Cleanup terraform state files"
+rm .terraform/terraform.tfstate terraform.tfstate.backup
+
 echo "Setting up terraform configuration for remote s3 state file storage"
 echo "terraform init -backend-config \"bucket=${terraform_remote_states_bucket}\" -backend-config \"key=${jenkins_env_name}.tfstate\" -backend-config \"region=${target_aws_region}\""
 terraform init \
