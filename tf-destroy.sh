@@ -47,10 +47,10 @@ echo "Cleanup terraform state files"
 rm .terraform/terraform.tfstate terraform.tfstate.backup
 
 echo "Setting up terraform configuration for remote s3 state file storage"
-echo "terraform init -backend-config \"bucket=${terraform_remote_states_bucket}\" -backend-config \"key=${jenkins_env_name}.tfstate\" -backend-config \"region=${target_aws_region}\""
+echo "terraform init -backend-config \"bucket=${terraform_remote_states_bucket}\" -backend-config \"key=${jenkins_env_name}/jenkins.tfstate\" -backend-config \"region=${target_aws_region}\""
 terraform init \
     -backend-config="bucket=${terraform_remote_states_bucket}" \
-    -backend-config="key=${jenkins_env_name}.tfstate" \
+    -backend-config="key=${jenkins_env_name}/jenkins.tfstate" \
     -backend-config="region=${target_aws_region}"
 
 echo "terraform destroy -force -var \"env_name=${jenkins_env_name}\" -var \"region=${target_aws_region}\"  -var \"availability_zones=${availability_zones}\" -var \"ssh_key_name=${ssh_key_name}\""
@@ -60,5 +60,7 @@ else
     echo 'Error: terraform destroy failed.' >&2
     exit 1
 fi
+
+echo "Don't forget that this will not delete the 250GB Volume attached to Jenkins (to protect your prod data ;) so make sure to head to https://us-west-2.console.aws.amazon.com/ec2/v2/home?region=us-west-2#Volumes:sort=desc:createTime in order to delete it"
 
 echo "done"

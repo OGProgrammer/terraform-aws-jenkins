@@ -26,3 +26,15 @@ That is all there is to it! You can then see the IP of your Jenkins instance and
 To ssh `ssh admin@x.x.x.x`
 
 Jenkins UI can be seen browsed at `x.x.x.x:8080` where x.x.x.x is the output IP address of the ec2 instance.
+
+### Destroying
+
+Just run `./tf-destroy.sh` but in order to finalize cleanup you'll need to delete one last thing manually.
+
+*There is a 250 GB drive mounted to Jenkins that is not destroyed when you destroy the instance with terraform, you have to manually goto [AWS EC2 Volumes](https://us-west-2.console.aws.amazon.com/ec2/v2/home?region=us-west-2#Volumes:sort=desc:createTime) and destroy the drive that way.*
+
+This is to prevent critical production data from getting destroyed but yea, I even keep forgetting to kill these drives...
+
+#### TODOs
+
+This could probably be further improved by using Ansible, Puppet, Chef, or something like that to provision any OS. This is really locked to Debian at the moment.

@@ -41,7 +41,12 @@ ln -s /data/docker docker
 ### INSTALL JENKINS & DEPS
 
 # Grab the provision script from s3
-aws s3 cp --recursive s3://${JenkinsBucket} /
+
+until aws s3 cp --recursive s3://${JenkinsBucket} /; do
+    echo "Trying to copy S3 files down to EC2."
+    sleep 10
+done
+
 # Make it executable
 chmod +x /init.sh
 # Run it
