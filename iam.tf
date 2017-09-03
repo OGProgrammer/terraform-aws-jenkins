@@ -43,29 +43,28 @@ resource "aws_iam_role_policy_attachment" "poweruser-attach" {
 #}
 
 # Needed to provision resources in AWS from the Jenkins instance
-#data "aws_iam_policy_document" "jenkins-iam-control-policy" {
-#  statement {
-#    effect = "Allow"
-#    actions = [
-#      "iam:AttachRolePolicy",
-#      "iam:CreatePolicy",
-#      "iam:CreateRole",
-#      "iam:DeletePolicy",
-#      "iam:DeleteRole",
-#      "iam:DetachRolePolicy",
-#      "iam:PassRole",
-#      "iam:GetRole",
-#      "iam:GetGroup",
-#      "iam:GetPolicy",
-#      "iam:GetRolePolicy",
-#      "iam:GetInstanceProfile",
-#      "iam:ListAttachedRolePolicies",
-#      "iam:ListEntitiesForPolicy",
-#      "iam:ListRolePolicies",
-#      "iam:ListRoles",
-#      "iam:PutRolePolicy"
-#    ]
-#    resources = [
-#      "*"]
-#  }
-#}
+data "aws_iam_policy_document" "jenkins-iam-control-policy" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "iam:AttachRolePolicy",
+      "iam:CreatePolicy",
+      "iam:CreateRole",
+      "iam:DeletePolicy",
+      "iam:DeleteRole",
+      "iam:DetachRolePolicy",
+      "iam:PassRole",
+      "iam:GetRole",
+      "iam:GetGroup",
+      "iam:GetPolicy",
+      "iam:GetRolePolicy",
+      "iam:GetInstanceProfile",
+      "iam:ListAttachedRolePolicies",
+      "iam:ListEntitiesForPolicy",
+      "iam:ListRolePolicies",
+      "iam:ListRoles",
+      "iam:PutRolePolicy"
+    ]
+    resources = ["*"]
+  }
+}

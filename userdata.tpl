@@ -47,9 +47,10 @@ until aws s3 cp --recursive s3://${JenkinsBucket} /; do
     sleep 10
 done
 
-# Make it executable
-chmod +x /init.sh
-# Run it
+# Make bash scripts executable
+chmod +x /init.sh /var/lib/jenkins/configure-git.sh
+
+# Provision the Jenkins server
 /init.sh
 
 echo "END"
