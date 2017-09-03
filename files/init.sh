@@ -157,9 +157,10 @@ ln -s /opt/terraform/terraform /usr/bin/terraform
 
 # Add user information to git global config. This allows Jenkins to update engagednation/app-manifest
 echo "Setting up github creds"
-git config --global user.email "Jenkins@YourCompany"
-git config --global user.name "Jenkins"
-cp /root/.gitconfig /var/lib/jenkins/.gitconfig
-chown jenkins:jenkins /var/lib/jenkins/.gitconfig
+sudo -H -u jenkins bash -c 'git config --global user.email "Jenkins@YourCompany"'
+sudo -H -u jenkins bash -c 'git config --global user.name "Jenkins"'
+sudo -H -u jenkins bash -c 'ssh-keygen -t rsa -C "Jenkins@YourCompany" -f "/var/lib/jenkins/.ssh/id_rsa" -P ""'
+# Susceptible to man-in-the-middle attack - Check fingerprint manually - https://help.github.com/articles/github-s-ssh-key-fingerprints/
+#sudo -H -u jenkins bash -c 'ssh-keyscan github.com >> ~/.ssh/known_hosts'
 
 exit 0
