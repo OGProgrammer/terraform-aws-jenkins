@@ -27,6 +27,19 @@ To ssh `ssh admin@x.x.x.x`
 
 Jenkins UI can be seen browsed at `x.x.x.x:8080` where x.x.x.x is the output IP address of the ec2 instance.
 
+## Important Notes
+
+If you provision this Jenkins terraform script with something that deletes and creates a new Jenkins instance,
+(because yes that can happen) don't freak out. You can login to the AWS EC2->Volumes page and detach the new drive and add the old one back.
+All your Jenkins/Docker data should be stored on this volume.
+
+1. SSH into Jenkins and stop Jenkins `sudo service jenkins stop`
+2. Unmount the new drive `sudo umount /dev/xvdf`
+3. Detach the [volume](https://us-west-2.console.aws.amazon.com/ec2/v2/home?region=us-west-2#Volumes:sort=desc:createTime) in the AWS dashboard.
+
+
+Delete drives not in use anymore as they will pile up even after a terraform destroy.
+
 ### Destroying
 
 Just run `./tf-destroy.sh` but in order to finalize cleanup you'll need to delete one last thing manually.

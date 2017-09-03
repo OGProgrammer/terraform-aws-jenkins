@@ -10,7 +10,14 @@ terraform {
 }
 
 # This tells terraform we will use AWS. Your key/secret is being set via env vars to magically get set into this node.
+provider "terraform" {
+  version = "~> 0.1"
+}
+provider "template" {
+  version = "~> 0.1"
+}
 provider "aws" {
+  version = "~> 0.1"
   region = "${var.region}"
 }
 
