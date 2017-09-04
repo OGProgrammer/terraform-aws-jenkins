@@ -154,8 +154,8 @@ usermod -g docker jenkins
 echo "Installing Terraform"
 mkdir -p /opt/terraform
 wget https://releases.hashicorp.com/terraform/0.10.3/terraform_0.10.3_linux_amd64.zip -O /opt/terraform/terraform_0.10.3_linux_amd64.zip
-cd /opt/terraform ; unzip terraform_0.10.3_linux_amd64.zip
 mv /usr/bin/terraform /usr/bin/terraform-old #failsafe
+cd /opt/terraform ; unzip terraform_0.10.3_linux_amd64.zip
 ln -s /opt/terraform/terraform /usr/bin/terraform
 
 echo "# # # done # # #"

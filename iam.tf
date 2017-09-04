@@ -53,6 +53,7 @@ data "aws_iam_policy_document" "jenkins-iam-control-policy" {
   statement {
     effect = "Allow"
     actions = [
+      "iam:AddRoleToInstanceProfile",
       "iam:AttachRolePolicy",
       "iam:CreatePolicy",
       "iam:CreateRole",
