@@ -147,6 +147,9 @@ until wget -O /root/jenkins-cli.jar http://localhost:8080/jnlpJars/jenkins-cli.j
     sleep 10
 done
 
+# We need the jenkins user to have the docker group as its primary group in order to use docker as the jenkins user
+usermod -g docker jenkins
+
 # Installing Terraform
 echo "Installing Terraform"
 mkdir -p /opt/terraform
