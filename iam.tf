@@ -44,7 +44,7 @@ resource "aws_iam_role_policy_attachment" "iam-control-attach" {
 
 resource "aws_iam_policy" "jenkins-iam-control-policy" {
   name        = "${var.env_name}-${var.region}-iam-control"
-  description = "Give full control over IAM "
+  description = "Give some control over IAM "
   policy = "${data.aws_iam_policy_document.jenkins-iam-control-policy.json}"
 }
 
