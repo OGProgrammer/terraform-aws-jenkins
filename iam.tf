@@ -37,10 +37,16 @@ resource "aws_iam_role_policy_attachment" "poweruser-attach" {
   policy_arn = "arn:aws:iam::aws:policy/PowerUserAccess"
 }
 
-#resource "aws_iam_role_policy_attachment" "ec2-read-only-policy-attachment" {
-#  role = "${aws_iam_role.jenkins_iam_role.name}"
-#  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess"
-#}
+resource "aws_iam_role_policy_attachment" "iam-control-attach" {
+  role = "${aws_iam_role.jenkins_iam_role.name}"
+  policy_arn = "${aws_iam_policy.jenkins-iam-control-policy.arn}"
+}
+
+resource "aws_iam_policy" "jenkins-iam-control-policy" {
+  name        = "${var.env_name}-${var.region}-iam-control"
+  description = "Give full control over IAM "
+  policy = "${data.aws_iam_policy_document.jenkins-iam-control-policy.json}"
+}
 
 # Needed to provision resources in AWS from the Jenkins instance
 data "aws_iam_policy_document" "jenkins-iam-control-policy" {
