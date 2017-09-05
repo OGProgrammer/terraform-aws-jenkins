@@ -61,6 +61,7 @@ data "aws_iam_policy_document" "jenkins-iam-control-policy" {
       "iam:DeletePolicy",
       "iam:DeleteRole",
       "iam:DeleteRolePolicy",
+      "iam:DeleteInstanceProfile",
       "iam:DetachRolePolicy",
       "iam:PassRole",
       "iam:GetRole",
