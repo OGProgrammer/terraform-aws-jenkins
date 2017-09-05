@@ -60,6 +60,7 @@ data "aws_iam_policy_document" "jenkins-iam-control-policy" {
       "iam:CreateInstanceProfile",
       "iam:DeletePolicy",
       "iam:DeleteRole",
+      "iam:DeleteRolePolicy",
       "iam:DetachRolePolicy",
       "iam:PassRole",
       "iam:GetRole",
@@ -69,9 +70,11 @@ data "aws_iam_policy_document" "jenkins-iam-control-policy" {
       "iam:GetInstanceProfile",
       "iam:ListAttachedRolePolicies",
       "iam:ListEntitiesForPolicy",
+      "iam:ListInstanceProfilesForRole",
       "iam:ListRolePolicies",
       "iam:ListRoles",
-      "iam:PutRolePolicy"
+      "iam:PutRolePolicy",
+      "iam:RemoveRoleFromInstanceProfile"
     ]
     resources = ["*"]
   }
