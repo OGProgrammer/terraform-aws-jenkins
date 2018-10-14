@@ -3,7 +3,7 @@
 # DO ALL THE THINGS
 # (•_•) / ( •_•)>⌐■-■ / (⌐■_■)
 #
-# @author Joshua Copeland <JoshuaRCopeland@gmail.com>
+# @author Joshua Copeland <Josh@RemoteDevForce.com>
 
 # Non-interactive shell
 export DEBIAN_FRONTEND=noninteractive
@@ -37,7 +37,8 @@ apt-get install -y php7.1 php7.1-xml php7.1-mbstring php7.1-curl
 ## GetComposer.org
 echo "Installing Composer"
 /usr/bin/php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-/usr/bin/php -r "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+# When an update to composer happens, you need to update this hash. https://getcomposer.org/download/
+/usr/bin/php -r "if (hash_file('SHA384', 'composer-setup.php') === '93b54496392c062774670ac18b134c3b3a95e5a5e5c8f1a9f115f203b75bf9a129d5daa8ba6a13e2cc8a1da0806388a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 /usr/bin/php composer-setup.php
 /usr/bin/php -r "unlink('composer-setup.php');"
 chmod +x composer.phar
@@ -150,6 +151,7 @@ done
 # We need the jenkins user to have the docker group as its primary group in order to use docker as the jenkins user
 usermod -g docker jenkins
 
+# @todo update terraform to 0.11+
 # Installing Terraform
 echo "Installing Terraform"
 mkdir -p /opt/terraform

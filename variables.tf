@@ -8,6 +8,11 @@ variable "region" {
   description = "The target AWS region"
 }
 
+# An s3 prefix (Your unique stack name)
+variable "s3prefix" {
+  description = "A unique s3 prefix to add for our bucket names"
+}
+
 # This is the root ssh key used for the ec2 instance
 variable "ssh_key_name" {
   description = "The name of the preloaded root ssh key used to access AWS resources."

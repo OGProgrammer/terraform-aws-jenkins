@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 echo "REPOSITORY: terraform-aws-jenkins"
-echo "SCRIPT: tf-plan.sh <env_name> <region> <availability_zones> <ssh_key_name>"
-echo "EXECUTING: terraform plan"
+echo "SCRIPT: tf-destroy.sh <s3prefix> <env_name> <region> <availability_zones> <ssh_key_name>"
+echo "EXECUTING: terraform destroy"
 
 echo "Checking for aws cli..."
 if ! [ -x "$(command -v aws)" ]; then
@@ -9,32 +9,38 @@ if ! [ -x "$(command -v aws)" ]; then
     exit 1
 fi
 
-jenkins_env_name=$1
+s3_prefix=$1
+if [ -z "$s3_prefix" ]; then
+    echo "An s3prefix must be provided! Failing out."
+    exit 1
+fi
+
+jenkins_env_name=$2
 if [ -z "$jenkins_env_name" ]; then
     jenkins_env_name=TestJenkins01
     echo "An environment name was not passed in, using \"${jenkins_env_name}\" as the default"
 fi
 
-target_aws_region=$2
+target_aws_region=$3
 if [ -z "$target_aws_region" ]; then
     target_aws_region=us-west-2
     echo "No region was passed in, using \"${target_aws_region}\" as the default"
 fi
 
-availability_zones=$3
+availability_zones=$4
 if [ -z "$availability_zones" ]; then
     availability_zones=us-west-2a,us-west-2b,us-west-2c
     echo "No availability zones were passed in, using \"${availability_zones}\" as the default"
 fi
 
-ssh_key_name=$4
+ssh_key_name=$5
 if [ -z "$ssh_key_name" ]; then
     ssh_key_name="root-ssh-key-${target_aws_region}"
     echo "No ssh key name was passed in, using \"${ssh_key_name}\" as the default"
 fi
 
 # Set name of remote terraform states bucket
-terraform_remote_states_bucket=terraform-states-${target_aws_region}
+terraform_remote_states_bucket=${s3_prefix}-terraform-states-${target_aws_region}
 
 # Needed for Terraform AWS Provider {}
 export AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id)
@@ -54,7 +60,7 @@ terraform init \
     -backend-config="region=${target_aws_region}"
 
 echo "terraform destroy -force -var \"env_name=${jenkins_env_name}\" -var \"region=${target_aws_region}\"  -var \"availability_zones=${availability_zones}\" -var \"ssh_key_name=${ssh_key_name}\""
-if terraform destroy -force -var "env_name=${jenkins_env_name}" -var "region=${target_aws_region}"  -var "availability_zones=${availability_zones}" -var "ssh_key_name=${ssh_key_name}"; then
+if terraform destroy -force -var "s3prefix=${s3_prefix}" -var "env_name=${jenkins_env_name}" -var "region=${target_aws_region}"  -var "availability_zones=${availability_zones}" -var "ssh_key_name=${ssh_key_name}"; then
     echo "Terraform destroy succeeded."
 else
     echo 'Error: terraform destroy failed.' >&2
@@ -63,4 +69,4 @@ fi
 
 echo "Don't forget that this will not delete the 250GB Volume attached to Jenkins (to protect your prod data ;) so make sure to head to https://us-west-2.console.aws.amazon.com/ec2/v2/home?region=us-west-2#Volumes:sort=desc:createTime in order to delete it"
 
-echo "done"
+echo "Destroy Completed"

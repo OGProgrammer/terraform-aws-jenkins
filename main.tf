@@ -10,22 +10,22 @@ terraform {
 }
 
 # This tells terraform we will use AWS. Your key/secret is being set via env vars to magically get set into this node.
-provider "terraform" {
-  version = "~> 0.1"
-}
-provider "template" {
-  version = "~> 0.1"
-}
 provider "aws" {
+  # If you have other AWS accounts, use this profile marker to point to specific credentials.
+#  profile = "your-profile-name"
   version = "~> 0.1"
   region = "${var.region}"
+}
+
+provider "template" {
+  version = "~> 0.1"
 }
 
 # Where to store the terraform state file. Note that you won't have a local tfstate file, because its stored remotly.
 data "terraform_remote_state" "jenkins_state" {
   backend = "s3"
   config {
-    bucket = "terraform-states-${var.region}"
+    bucket = "${var.s3prefix}-terraform-states-${var.region}"
     key = "${var.env_name}/jenkins.tfstate"
     region = "${var.region}"
   }
@@ -38,7 +38,7 @@ data "template_file" "jenkins_userdata" {
   vars {
     EnvName = "${var.env_name}"
     # The name of the bucket that will store our Jenkins resources. This was created in terraform-aws-init
-    JenkinsBucket = "jenkins-files-${var.region}"
+    JenkinsBucket = "${var.s3prefix}-jenkins-files-${var.region}"
   }
 }
 

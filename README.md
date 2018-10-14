@@ -15,11 +15,11 @@ An AWS EC2 setup running Jenkins provisioned via Terraform.
 
 The scripts can be called with the following parameters:
 
-`tf-plan.sh <env_name> <region> <availability_zones> <ssh_key_name>`
+`tf-plan.sh <s3_prefix> <env_name> <region> <availability_zones> <ssh_key_name>`
 
-You can leave these blank if you provisioned in us-west-2 and just launch `./tf-plan.sh`
+You must pass in the *s3prefix* you used in the `terraform-aws-init` s3prefix to this script. Ex. `./tf-plan.sh optimus-prime-87`
 
-Once the plan runs and everything looks good, you can provision your jenkins instance by running `./tf-apply.sh`
+Once the plan runs and everything looks good, you can provision your jenkins instance by running `./tf-apply.sh <s3_prefix>`
 
 That is all there is to it! You can then see the IP of your Jenkins instance and ssh or browse to it.
 
@@ -42,7 +42,7 @@ Delete drives not in use anymore as they will pile up even after a terraform des
 
 ### Destroying
 
-Just run `./tf-destroy.sh` but in order to finalize cleanup you'll need to delete one last thing manually.
+Just run `./tf-destroy.sh <s3_prefix>` but in order to finalize cleanup you'll need to delete one last thing manually.
 
 *There is a 250 GB drive mounted to Jenkins that is not destroyed when you destroy the instance with terraform, you have to manually goto [AWS EC2 Volumes](https://us-west-2.console.aws.amazon.com/ec2/v2/home?region=us-west-2#Volumes:sort=desc:createTime) and destroy the drive that way.*
 
@@ -51,3 +51,26 @@ This is to prevent critical production data from getting destroyed but yea, I ev
 #### TODOs
 
 This could probably be further improved by using Ansible, Puppet, Chef, or something like that to provision any OS. This is really locked to Debian at the moment.
+
+```
+Built & Maintained by @OGProgrammer
+
+Support Your Local User Groups
+http://php.ug/
+
+Check out our PHP UG in Las Vegas, NV
+http://PHPVegas.com
+
+Support your local tech scene!
+#VegasTech
+
+Share your knowledge!
+Become a speaker, co-organizer, at your local user groups.
+Contribute to your favorite open source packages (even if its a README ;)
+
+Thank you! ☺
+
+-Josh
+
+Paid support and training services available at http://RemoteDevForce.com
+```
