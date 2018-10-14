@@ -140,6 +140,12 @@ do
     java -jar /root/jenkins-cli.jar -s http://localhost:8080/ install-plugin $each ;
 done
 
+# Docker Permission Fix
+# We need the jenkins user to have the docker group as its primary group in order to use docker as the jenkins user
+usermod -g docker jenkins
+# Change docker files to be owned by the docker group
+chown -R root:docker docker/
+
 # Restarting Jenkins Server to install plugins and jobs
 java -jar /root/jenkins-cli.jar -s http://localhost:8080/ restart
 
@@ -147,12 +153,6 @@ until wget -O /root/jenkins-cli.jar http://localhost:8080/jnlpJars/jenkins-cli.j
     echo "Trying to download jenkins-cli.jar attempt to check jenkins is backup and running."
     sleep 10
 done
-
-# We need the jenkins user to have the docker group as its primary group in order to use docker as the jenkins user
-usermod -g docker jenkins
-
-# Change docker files to be owned by the docker group
-chown -R root:docker docker/
 
 # @todo update terraform to 0.11+
 # Installing Terraform
