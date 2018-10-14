@@ -19,6 +19,7 @@ apt-get install -y git wget jq vim unzip ca-certificates
 
 ## Install Docker-CE
 echo "Installing Docker"
+groupadd docker
 apt-get install -y apt-transport-https curl gnupg2 software-properties-common
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 apt-key fingerprint 0EBFCD88
@@ -142,12 +143,15 @@ done
 
 # Docker Permission Fix
 # We need the jenkins user to have the docker group as its primary group in order to use docker as the jenkins user
-usermod -g docker jenkins
+usermod -a -G docker jenkins
+
 # Change docker files to be owned by the docker group
-chown -R root:docker docker/
+#chown -R root:docker docker/
 
 # Restarting Jenkins Server to install plugins and jobs
-java -jar /root/jenkins-cli.jar -s http://localhost:8080/ restart
+#java -jar /root/jenkins-cli.jar -s http://localhost:8080/ restart
+service docker restart
+service jenkins restart
 
 until wget -O /root/jenkins-cli.jar http://localhost:8080/jnlpJars/jenkins-cli.jar; do
     echo "Trying to download jenkins-cli.jar attempt to check jenkins is backup and running."
