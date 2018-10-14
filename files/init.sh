@@ -151,6 +151,9 @@ done
 # We need the jenkins user to have the docker group as its primary group in order to use docker as the jenkins user
 usermod -g docker jenkins
 
+# Change docker files to be owned by the docker group
+chown -R root:docker docker/
+
 # @todo update terraform to 0.11+
 # Installing Terraform
 echo "Installing Terraform"
