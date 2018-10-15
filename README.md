@@ -122,7 +122,13 @@ This is to prevent critical production data from getting destroyed but yea, I ev
 
 #### TODOs
 
-This could probably be further improved by using Ansible, Puppet, Chef, or something like that to provision any OS. This is really locked to Debian at the moment.
+* This could probably be further improved by using Ansible, Puppet, Chef, or something like that to provision any OS. This is really locked to Debian at the moment.
+
+* Have a way to automatically create the jenkins jobs based off a manifest in s3.
+
+* Combine jobs for less work (plan and apply in one) but more risk unless you add an approval step.
+
+* Refactor groovy scripts to look for credentials for docker and github rather than going onto box to configure.
 
 ```
 Built & Maintained by @OGProgrammer
