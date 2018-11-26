@@ -27,6 +27,8 @@ To ssh `ssh admin@x.x.x.x`
 
 Jenkins UI can be seen browsed at `x.x.x.x:8080` where x.x.x.x is the output IP address of the ec2 instance.
 
+*PLEASE SECURE JENKINS ASAP BY PUTTING INTO A PRIVATE SUBNET OR ADDING PASSWORD AUTH*
+
 ### Post Instructions
 
 After Jenkins is setup, you'll need to start editing configs in your forked `terraform-example-manifest` repo that you created earlier.
